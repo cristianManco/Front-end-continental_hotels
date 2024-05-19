@@ -1,8 +1,10 @@
 import React, { FormEvent } from 'react';
-import '../Styles/App.css'
-
+import { useNavigate } from 'react-router-dom';
+import '../Styles/App.css';
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
@@ -19,7 +21,10 @@ const LoginForm: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('authToken', data.access_token);
         console.log('Inicio de sesión exitoso');
+        navigate('/');
       } else {
         console.error('Error al iniciar sesión');
       }
@@ -29,20 +34,22 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className='div-login'>
+    <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit} className='login'>
-        <label>Email</label>
-        <input type="email" name="email" />
+      <div className='register-form'>
+        <div className="image-container">
+          <img className='imgs' src="https://i0.wp.com/www.oinkoink.com.mx/wp-content/uploads/2019/09/cuarto-lujo-hotel-1.jpg?fit=1200%2C732&ssl=1" alt="Imagen de perfil" />
+        </div>
+        <form onSubmit={handleSubmit} className='login'>
+          <label>Email</label>
+          <input type="email" name="email" required/>
 
-        <label>Password</label>
-        <input type="password" name="password" />
+          <label>Password</label>
+          <input type="password" name="password" required/>
 
-         <br />
-        <button type="submit">Iniciar sesión</button>
-      </form>
-      <div className="image-container">
-        <img src="../public/vite.svg" alt="Imagen de perfil" />
+          <br />
+          <button type="submit">Sign In</button>
+        </form>
       </div>
     </div>
   );

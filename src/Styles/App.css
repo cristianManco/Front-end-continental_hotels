@@ -1,70 +1,58 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 #root {
-  max-width: 1280px;
+  max-width: auto !important;
+  background-size: cover;
+  width: auto !important;
+  background-repeat: no-repeat;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+
+}
 
 .register-form{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 2em;
-  background-color: rgba(13, 33, 120, 0.87);
-  border-radius: 8px;
-  box-shadow: 0 0 2em rgba(0, 0, 0, 0.2);
-
+  flex-direction: row;
+  box-shadow: 0 0 2em rgba(3, 0, 7, 0.551);
 }
 
-.div-login{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 2em;
-  background-color: rgba(13, 33, 120, 0.87);
-  border-radius: 8px;
-  box-shadow: 0 0 2em rgba(0, 0, 0, 0.2);
+.container img {
+  transition: transform 0.5s;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.container img:nth-child(1) {
+  transform: translateX(-100%);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.container img:nth-child(2) {
+  transform: translateX(100%);
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+.imgs{
+  height: 25rem;
+  width: auto;
 }
 
-.card {
-  padding: 2em;
+h1{
+  color: rgb(1, 1, 17);
+  font-weight: 600;
+  font-family:monospace;
 }
 
-.read-the-docs {
-  color: #888;
-}

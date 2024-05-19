@@ -1,31 +1,61 @@
-import  { useState } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginForm from './Formularios/LoginForm';
 import RegisterForm from './Formularios/RegisterForm';
-import './Styles/App.css'
+import Logout from './Formularios/logout';
+import './Styles/App.css';
 
-function App() {
-  const [route, setRoute] = useState(window.location.pathname);
-
-  const handleRouteChange = () => {
-    setRoute(window.location.pathname);
-  };
-
-  window.onpopstate = handleRouteChange;
-
-  let Component;
-  if (route === '/login') {
-    Component = LoginForm;
-  } else if (route === '/register') {
-    Component = RegisterForm;
-  } else {
-    Component = () => <div>404 Not Found</div>;
-  }
+const App: React.FC = () => {
+  const [isLoginForm, setIsLoginForm] = useState(true);
 
   return (
-    <div className="app">
-      <Component />
-    </div>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <>
+                {isLoginForm ? <LoginForm /> : <RegisterForm />}
+                <a onClick={() => setIsLoginForm(!isLoginForm)} className='text'>
+                  {isLoginForm ? "Don’t have an account? Sign up" : "Already have an account? Sign in"}
+                </a>
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                {isLoginForm ? <LoginForm /> : <RegisterForm />}
+                <a onClick={() => setIsLoginForm(!isLoginForm)} className='text'>
+                  {isLoginForm ? "Don’t have an account? Sign up" : "Already have an account? Sign in"}
+                </a>
+              </>
+            }
+          />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
+
+const Home: React.FC = () => (
+  <div>
+    <h1>Home continental hotels</h1>
+    <Logout />
+  </div>
+);
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  return <>{children}</>;
+};
 
 export default App;
